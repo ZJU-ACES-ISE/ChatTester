@@ -17,8 +17,6 @@ import java.util.List;
 
 public class TesterMethodRunner extends MethodRunner {
 
-    public MethodInfo methodInfo;
-
     public TesterMethodRunner(Config config, String fullClassName, MethodInfo methodInfo) throws IOException {
         super(config, fullClassName, methodInfo);
     }
