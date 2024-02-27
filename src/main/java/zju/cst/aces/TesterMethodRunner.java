@@ -75,7 +75,10 @@ public class TesterMethodRunner extends MethodRunner {
                 prompt = promptGenerator.generateMessages(promptInfo);
                 Message userMessage = prompt.get(1);
                 String oldContent = userMessage.getContent();
-                userMessage.setContent(intention + "\n" + oldContent);
+                int lastBraceIndex = oldContent.lastIndexOf("}");
+                userMessage.setContent(
+                    new StringBuilder(oldContent).insert(lastBraceIndex + 1, "\n//Method intention\n" + intention).toString()
+                );
 
                 config.getLog().info("Generating test for method < " + methodInfo.methodName + " > round " + rounds + " ...");
             } else {
