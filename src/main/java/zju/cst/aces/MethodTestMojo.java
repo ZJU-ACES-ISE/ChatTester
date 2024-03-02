@@ -20,7 +20,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import zju.cst.aces.api.Task;
-import zju.cst.aces.api.impl.RunnerImpl;
+import zju.cst.aces.chattester.TesterRunner;
 
 /**
  * @author chenyi

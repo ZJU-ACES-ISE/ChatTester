@@ -33,7 +33,8 @@ import org.apache.maven.shared.dependency.graph.DependencyNode;
 import zju.cst.aces.api.Task;
 import zju.cst.aces.api.config.Config;
 import zju.cst.aces.api.impl.ProjectImpl;
-import zju.cst.aces.api.impl.RunnerImpl;
+import zju.cst.aces.chattester.TesterRunner;
+import zju.cst.aces.chattester.TesterValidator;
 import zju.cst.aces.logger.MavenLogger;
 import zju.cst.aces.parser.ProjectParser;
 
@@ -162,6 +163,8 @@ public class ProjectTestMojo
                 .presencePenalty(presencePenalty)
                 .proxy(proxy)
                 .build();
+
+        config.setValidator(new TesterValidator(config.getTestOutput(), config.getCompileOutputPath(),  this.project.getBasedir().toPath().resolve("target"), config.getClassPaths()));
         config.print();
     }
 
