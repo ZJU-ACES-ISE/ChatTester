@@ -1,31 +1,6 @@
-# :mega: ChatUnitest Maven Plugin
+# :mega: ChatTester Maven Plugin
 
-![logo](docs/img/logo.png)
-
-
-[English](./README.md) | [中文](./Readme_zh.md)
-
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.ZJU-ACES-ISE/chatunitest-maven-plugin?color=hex&style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.ZJU-ACES-ISE/chatunitest-maven-plugin)
-
-## Updates:
-💥 Add docker image to generate tests in isolated sandbox environment.
-
-💥 Added multithreading feature for faster test generation.
-
-💥 Plugin now exports runtime and error logs.
-
-💥 Custom prompt support added.
-
-💥 Algorithm optimized to minimize token usage.
-
-💥 Expanded configuration options. Refer to **Steps to Run** for details.
-
-## Background
-Many people have tried using ChatGPT to help them with various programming tasks and have achieved good results. However, there are some issues with using ChatGPT directly. Firstly, the generated code often fails to execute correctly, leading to the famous saying **"five minutes to code, two hours to debug"**. Secondly, it is inconvenient to integrate with existing projects as it requires manual interaction with ChatGPT and switching between different platforms. To address these problems, we have proposed the **"Generate-Validate-Repair"** framework and implemented a prototype. Additionally, to make it easier for everyone to use, we have developed some plugins that can be seamlessly integrated into existing development workflows.
-
-## Steps to run (Docker)
-
-See [chenyi26/chatunitest](https://hub.docker.com/repository/docker/chenyi26/chatunitest/general).
+This is an implementation for the paper "No More Manual Tests? Evaluating and Improving ChatGPT for Unit Test Generation" [arxiv](https://arxiv.org/abs/2305.04207)
 
 ## Steps to run
 
@@ -37,8 +12,8 @@ You can configure the plugin with the following parameters to your `pom.xml` fil
 
 <plugin>
     <groupId>io.github.ZJU-ACES-ISE</groupId>
-    <artifactId>chatunitest-maven-plugin</artifactId>
-    <version>1.4.1</version>
+    <artifactId>chattester-maven-plugin</artifactId>
+    <version>1.0.0</version>
     <configuration>
         <!-- Required: You must specify your OpenAI API keys. -->
         <apiKeys></apiKeys>
@@ -106,16 +81,16 @@ Essentially, the only thing you need to provide are your API keys.
 **Generate unit tests for the target method:**
 
 ```shell
-mvn chatunitest:method -DselectMethod=className#methodName
+mvn chattester:method -DselectMethod=className#methodName
 ```
 
 **Generate unit tests for the target class:**
 
 ```shell
-mvn chatunitest:class -DselectClass=className
+mvn chattester:class -DselectClass=className
 ```
 
-You must specify `selectMethod` and `selectClass` when executing `mvn chatunitest:method` or `mvn chatunitest:class`.
+You must specify `selectMethod` and `selectClass` when executing `mvn chattester:method` or `mvn chattester:class`.
 This is done using the -D option.
 
 Example:
@@ -131,14 +106,14 @@ public class Example {
 To test the class `Example` and all methods in it:
 
 ```shell
-mvn chatunitest:class -DselectClass=Example
+mvn chattester:class -DselectClass=Example
 ```
 
-To test the method `method1` in the class `Example` (Now ChatUnitest will generate tests for all methods named method1
+To test the method `method1` in the class `Example` (Now ChatTester will generate tests for all methods named method1
 in the class)
 
 ```shell
-mvn chatunitest:method -DselectMethod=Example#method1
+mvn chattester:method -DselectMethod=Example#method1
 ```
 
 **Generate unit tests for the whole project:**
@@ -147,13 +122,13 @@ mvn chatunitest:method -DselectMethod=Example#method1
 substantial bill.
 
 ```shell
-mvn chatunitest:project
+mvn chattester:project
 ```
 
 **Clean the generated tests:**
 
 ```shell
-mvn chatunitest:clean
+mvn chattester:clean
 ```
 Running this command will delete all generated tests and restore your test folder.
 
@@ -161,7 +136,7 @@ Running this command will delete all generated tests and restore your test folde
 **Run the generated tests manually:**
 
 ```shell
-mvn chatunitest:copy
+mvn chattester:copy
 ```
 Running this command will copy the generated tests into the `src/test/java/` directory for your convenience when you want
 to run the tests manually. Your test folder will be backed up in the `src/back/` directory.
@@ -169,19 +144,19 @@ to run the tests manually. Your test folder will be backed up in the `src/back/`
 If the merge configuration is enabled, you can run the test suites instead of individual tests for each class.
 
 ```shell
-mvn chatunitest:restore
+mvn chattester:restore
 ```
 
 Running this command will restore the test folder from the backup in the `src/back/` directory.
 
 ```
-mvn chatunitest:generateCoverage
+mvn chattester:generateCoverage
 ```
 ```xml
 <plugin>
     <groupId>io.github.ZJU-ACES-ISE</groupId>
-    <artifactId>chatunitest-maven-plugin</artifactId>
-    <version>1.3.0</version>
+    <artifactId>chattester-maven-plugin</artifactId>
+    <version>1.0.0</version>
     <configuration>
         <targetDir>D:\\coverage</targetDir>
         <mavenHome>C:\\software\\apache-maven-3.9.2</mavenHome>
@@ -192,12 +167,12 @@ mvn chatunitest:generateCoverage
 Running this method will execute the tests in the folder `sourceDir`, the coverage 
 result of the project will remove to folder `targetDir`. 
 ```shell
-mvn chatunitest:generateMethodCoverage_separate
+mvn chattester:generateMethodCoverage_separate
 ```
 ```xml
 <plugin>
     <groupId>io.github.ZJU-ACES-ISE</groupId>
-    <artifactId>chatunitest-maven-plugin</artifactId>
+    <artifactId>chattester-maven-plugin</artifactId>
     <version>1.3.0</version>
     <configuration>
         <targetDir>D:\\coverage</targetDir>
@@ -210,7 +185,7 @@ Running this method will execute all the test classes in `sourceDir` separately
 and calculate separate coverage for each test class, the result are saved in the `methodCoverage_SEPARATE.json` file under `targetDir`.
 
 ```shell
-mvn chatunitest:generateMethodCoverage_merge
+mvn chattester:generateMethodCoverage_merge
 ```
 Running this method will group the test classes according to the target test class(
 the test classes for the same method will be summarized into a group). For test classes in the same grouping, the 
@@ -231,27 +206,6 @@ versions. The following environments have been tested and proven to work:
 Please note that these environments are tested and known to work. You can also try running the plugin in similar
 environments. If you encounter any issues in other environments, please refer to the documentation or seek appropriate
 support.
-
-## :construction: TODO
-
-- Add code obfuscation to avoid sending the original code to ChatGPT.
-- Add expense estimation and quota.
-- Optimize the structure of generated test cases.
-
-## MISC
-
-Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://arxiv.org/abs/2305.04764).
-
-```
-@misc{xie2023chatunitest,
-      title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
-      author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
-      year={2023},
-      eprint={2305.04764},
-      archivePrefix={arXiv},
-      primaryClass={cs.SE}
-}
-```
 
 ## :email: Contact us
 
