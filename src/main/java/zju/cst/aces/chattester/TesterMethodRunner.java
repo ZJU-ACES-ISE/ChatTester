@@ -85,7 +85,7 @@ public class TesterMethodRunner extends MethodRunner {
                 );
 
                 config.getLog().info("Generating test for method < " + methodInfo.methodName + " > round " + rounds + " ...");
-            } else {
+            } else if (promptInfo.getErrorMsg() != null) {
                 assert(!promptInfo.getErrorMsg().getErrorMessage().isEmpty());
                 if (promptInfo.getErrorMsg().getErrorMessage().size() >= errorNum) {
                     invalidRefinementCount++;
@@ -158,6 +158,8 @@ public class TesterMethodRunner extends MethodRunner {
                         );
                     }
                 }
+            } else {
+                prompt = promptGenerator.generateMessages(promptInfo);
             }
 
             // start generate test
