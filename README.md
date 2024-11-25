@@ -13,7 +13,8 @@ You can configure the plugin with the following parameters to your `pom.xml` fil
 <plugin>
     <groupId>io.github.ZJU-ACES-ISE</groupId>
     <artifactId>chattester-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <!-- Required: You need to change the version number to match the local chattester. -->
+    <version>1.4.1</version>
     <configuration>
         <!-- Required: You must specify your OpenAI API keys. -->
         <apiKeys></apiKeys>
